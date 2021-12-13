@@ -23,9 +23,10 @@ class SecurityConfig @Autowired constructor(
     fun springSecurityFilterChain(httpSecurity: ServerHttpSecurity):SecurityWebFilterChain{
         httpSecurity
             .authorizeExchange()
+            .pathMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
             .pathMatchers(HttpMethod.POST, "/api/v1/auth/subs").permitAll()
-            .pathMatchers(HttpMethod.GET, "/api/v1/auth/me").hasAnyRole("USER","ADMIN")
-            .pathMatchers(HttpMethod.GET, "/spi/v1/find_by_email/**").hasRole("ADMIN")
+            .pathMatchers(HttpMethod.GET, "/api/v1/auth/me").hasRole("ADMIN")
+            .pathMatchers(HttpMethod.GET, "/api/v1/auth/find_by_email/**").hasRole("ADMIN")
             .and()
             .httpBasic().disable()
             .formLogin().disable()

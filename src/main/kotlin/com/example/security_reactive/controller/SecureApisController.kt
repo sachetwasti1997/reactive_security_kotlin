@@ -1,5 +1,6 @@
 package com.example.security_reactive.controller
 
+import com.example.security_reactive.model.LoginRequest
 import com.example.security_reactive.model.ResponseProfile
 import com.example.security_reactive.model.UserDto
 import com.example.security_reactive.service.UserService
@@ -14,6 +15,14 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/auth")
 class SecureApisController @Autowired constructor(val userService: UserService) {
+
+    @PostMapping("/login")
+    fun userLogin(@RequestBody login:LoginRequest):Mono<ResponseEntity<ResponseProfile>>{
+        return userService.loginUser(login)
+            .map{
+                ResponseEntity<ResponseProfile>(it, HttpStatus.OK)
+            }
+    }
 
     @PostMapping("/subs")
     fun subscribeUser(@RequestBody userDto: UserDto):Mono<ResponseEntity<ResponseProfile>>{

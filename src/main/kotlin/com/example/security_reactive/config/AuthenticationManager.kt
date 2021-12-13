@@ -32,7 +32,7 @@ class AuthenticationManager @Autowired constructor(var jwtUtil: JwtUtil, var use
                 val element = it
                 authorities.add(SimpleGrantedAuthority(element))
             }
-            return UsernamePasswordAuthenticationToken(user?.email, user?.password, authorities)
+            return UsernamePasswordAuthenticationToken(user?.email, token, authorities)
         }
         throw IllegalArgumentException("Token is not valid!")
     }
